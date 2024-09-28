@@ -25,6 +25,7 @@ import type {
 
 const markdown = new MarkdownIt('zero');
 markdown.enable(['heading', 'lheading']);
+import _ from 'lodash';
 
 const repositoriesToSkipMdFetching = ['facebook/react-native'];
 
@@ -116,7 +117,8 @@ export function massageName(
   let name = input ?? '';
 
   if (version) {
-    name = name.replace(RegExp(`^(Release )?v?${version}`, 'i'), '').trim();
+    const safeVersion = _.escapeRegExp(version);
+    name = name.replace(RegExp(`^(Release )?v?${safeVersion}`, 'i'), '').trim();
   }
 
   name = name.trim();
